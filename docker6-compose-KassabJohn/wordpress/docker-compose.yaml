@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+
+  wordpress:
+    image: wordpress
+    restart: on-failure
+    depends_on:
+        - db
+    ports:
+        - 8000:80
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: word
+      WORDPRESS_DB_PASSWORD: wordpass
+      WORDPRESS_DB_NAME: amazing-devops
+    volumes:
+        - ./data-wordpress:/var/www/html
+
+  db:
+        image: mysql:5.7
+        restart: on-failure
+        environment:
+            MYSQL_DATABASE: amazing-devops
+            MYSQL_USER: word
+            MYSQL_PASSWORD: wordpass
+            MYSQL_RANDOM_ROOT_PASSWORD: 'adminpass'
+        volumes:
+            - ./data-db:/var/lib/mysql
